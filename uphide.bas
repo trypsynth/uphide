@@ -12,6 +12,9 @@ Comset SearchResult = Searcher.Search("IsInstalled=0 And IsHidden=0")
 NumUpdates = SearchResult.Updates.Count
 If NumUpdates = 0 Then
     Print "No updates were found."
+    Uncom(SearchResult)
+    Uncom(Searcher)
+    Uncom(Session)
     End
 End If
 Print "Enter the numbers of the updates you want to hide, seperated by spaces, and press enter. Leave blank to exit."
@@ -25,7 +28,13 @@ For Each Item In Updates
 Next
 Dim Input$
 Input Input$
-If Input$ = "" Then End
+If Input$ = "" Then
+    Uncom(Updates)
+    Uncom(SearchResult)
+    Uncom(Searcher)
+    Uncom(Session)
+    End
+End If
 Dim NumSelections
 Dim ToHide[100] As String
 NumSelections = Split(ToHide, Input$, " ", 0)
@@ -40,8 +49,8 @@ For I = 0 To NumSelections - 1
     Print "Hid " & Title$
 Next
 Pause
-Uncom(Searcher)
-Uncom(Session)
-Uncom(SearchResult)
 Uncom(Update)
 Uncom(Updates)
+Uncom(SearchResult)
+Uncom(Searcher)
+Uncom(Session)

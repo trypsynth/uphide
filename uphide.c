@@ -378,7 +378,7 @@ static char    ToHide[100][BCXSTRSIZE];
 //               User's Prototypes
 // *************************************************
 
-void    make_single_instance (char *);
+void    MakeSingleInstance (char *);
 
 // *************************************************
 //            User's Global Initialized Arrays
@@ -1400,16 +1400,16 @@ void COM_FREE_TEMP_ANSI_STRING (void) {
 //            User's Subs and Functions
 // *************************************************
 
-void make_single_instance (char *app_id)
+void MakeSingleInstance (char *AppID)
 {
   HANDLE   hMutex= {0};
-  hMutex=OpenMutex(MUTEX_ALL_ACCESS,0,join(2,app_id,"_IsAlreadyRunning"));
+  hMutex=OpenMutex(MUTEX_ALL_ACCESS,0,join(2,AppID,"_IsAlreadyRunning"));
   if(!hMutex ){
-      hMutex=CreateMutex(0,0,join(2,app_id,"_IsAlreadyRunning"));
+      hMutex=CreateMutex(0,0,join(2,AppID,"_IsAlreadyRunning"));
     }
   else
     {
-      MessageBox (GetActiveWindow(),join(3,"Another instance of ",app_id," is already running."),"Error",MB_ICONERROR );
+      MessageBox (GetActiveWindow(),join(3,"Another instance of ",AppID," is already running."),"Error",MB_ICONERROR );
       fflush(stdout);
       ExitProcess(0);
     }
@@ -1504,6 +1504,9 @@ int main(int argc, char *argv[])
   if (0 == COM_reset_chain) COM_reset_disp_chain(&SearchResult);
   if(NumUpdates==0 ){
       printf("%s\n","No updates were found.");
+      UNCOM(SearchResult);
+      UNCOM(Searcher);
+      UNCOM(Session);
       fflush(stdout);
       ExitProcess(0);
     }
@@ -1663,6 +1666,10 @@ int main(int argc, char *argv[])
     }
   *Input=0, KBinput(),ScanError=scan(InputBuffer,"%s",Input);
   if(Input[0]==0 ){
+      UNCOM(Updates);
+      UNCOM(SearchResult);
+      UNCOM(Searcher);
+      UNCOM(Session);
       fflush(stdout);
       ExitProcess(0);
     }
@@ -1739,10 +1746,10 @@ int main(int argc, char *argv[])
       printf("%s%s\n","Hid ",Title);
     }
   Pause();
-  UNCOM(Searcher);
-  UNCOM(Session);
-  UNCOM(SearchResult);
   UNCOM(Update);
   UNCOM(Updates);
+  UNCOM(SearchResult);
+  UNCOM(Searcher);
+  UNCOM(Session);
   return EXIT_SUCCESS;   // End of main program
   }
