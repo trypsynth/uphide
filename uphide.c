@@ -1735,18 +1735,18 @@ int main(int argc, char *argv[])
       }
       VariantClear(&COM_vt_result);
       if (0 == COM_reset_chain) COM_reset_disp_chain(&Update);
-      lstrcpy(COM_ErrMsg, _T("Ishidden"));
+      lstrcpy(COM_ErrMsg, _T("IsHidden"));
       COM_PARAMS[0].vt = VT_BOOL;
       COM_PARAMS[0].boolVal = VARIANT_TRUE;
       COM_plist_index = 1;
   
       if (!COM_BCX_ERROR)
-        COM_invoke(&Update, L"Ishidden", DISPATCH_PROPERTYPUT, NULL);
+        COM_invoke(&Update, L"IsHidden", DISPATCH_PROPERTYPUT, NULL);
   
       printf("%s%s\n","Hid ",Title);
+      UNCOM(Update);
     }
   Pause();
-  UNCOM(Update);
   UNCOM(Updates);
   UNCOM(SearchResult);
   UNCOM(Searcher);

@@ -45,11 +45,11 @@ For I = 0 To NumSelections - 1
     Comset Update = Updates.Item(CurIndex - 1)
     Dim Title$
     Title$ = Update.Title
-    Update.Ishidden = True
+    Update.IsHidden = True
     Print "Hid " & Title$
+    Uncom(Update)
 Next
 Pause
-Uncom(Update)
 Uncom(Updates)
 Uncom(SearchResult)
 Uncom(Searcher)
