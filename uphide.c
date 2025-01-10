@@ -1,6 +1,6 @@
 // *************************************************
 //      Made with BCX BASIC To C/C++ Translator
-//            Version 8.0.8 (12/27/2023)
+//            Version 8.2.0 (12/27/2024)
 // *************************************************
 //    Translated for compiling with a C Compiler
 // *************************************************
@@ -14,73 +14,101 @@
   #define _WIN32_DCOM
 #endif
 
-#include <windows.h>    // WinApi
-#include <windowsx.h>   // WinApi
-#include <commctrl.h>   // WinApi
-#include <commdlg.h>    // WinApi
-#include <direct.h>     // WinApi
-#include <mmsystem.h>   // WinApi
-#include <oaidl.h>      // WinApi
-#include <objbase.h>    // WinApi
-#include <ocidl.h>      // WinApi
-#include <ole2.h>       // WinApi
-#include <oleauto.h>    // WinApi
-#include <olectl.h>     // WinApi
-#include <richedit.h>   // WinApi
-#include <shellapi.h>   // WinApi
-#include <shlobj.h>     // WinApi
-#include <urlmon.h>     // WinApi
-#include <wchar.h>      // WinApi
-#include <wctype.h>     // WinApi
-#include <tchar.h>      // WinApi
-#include <unknwn.h>     // WinApi
-#include <wingdi.h>     // WinApi
-#include <wininet.h>    // WinApi
-#include <winsock.h>    // WinApi
-#include <winuser.h>    // WinApi
-#include <stdbool.h>    // ISO StdLib
-#include <ctype.h>      // ISO StdLib
-#include <math.h>       // ISO StdLib
-#include <setjmp.h>     // ISO StdLib
-#include <stdarg.h>     // ISO StdLib
-#include <stddef.h>     // ISO StdLib
-#include <stdio.h>      // ISO StdLib
-#include <stdlib.h>     // ISO StdLib
-#include <string.h>     // ISO StdLib
-#include <time.h>       // ISO StdLib
-#include <process.h>    // ISO StdLib
-#include <inttypes.h>   // ISO StdLib
-#include <fcntl.h>      // POSIX
-#include <io.h>         // WinNT POSIX subset
-#include <conio.h>      // Primitive i/o
+// Windows API headers
+#include <windows.h>    // Core Windows API
+#include <windowsx.h>   // Windows API macros and functions
+#include <commctrl.h>   // Common Controls
+#include <commdlg.h>    // Common Dialogs
+#include <direct.h>     // Directory handling
+#include <mmsystem.h>   // Multimedia
+#include <oaidl.h>      // OLE Automation
+#include <objbase.h>    // Component Object Model (COM)
+#include <ocidl.h>      // OLE Control interfaces
+#include <ole2.h>       // OLE 2.0 functionality
+#include <oleauto.h>    // OLE Automation
+#include <olectl.h>     // OLE Controls
+#include <richedit.h>   // Rich Edit Control
+#include <shellapi.h>   // Shell API
+#include <shlobj.h>     // Shell Objects
+#include <urlmon.h>     // URL Monikers
+#include <wchar.h>      // Wide character support (also in ISO C)
+#include <wctype.h>     // Wide character classification (also in ISO C)
+#include <tchar.h>      // Unicode/ANSI character mapping
+#include <unknwn.h>     // COM base interfaces
+#include <wingdi.h>     // GDI
+#include <wininet.h>    // Internet
+#include <winsock.h>    // Windows Sockets
+#include <winuser.h>    // User Interface
 
+// ISO C Standard Library headers
+#include <ctype.h>      // Character classification
+#include <math.h>       // Mathematical functions
+#include <setjmp.h>     // Non-local jumps
+#include <stdarg.h>     // Variable arguments
+#include <stddef.h>     // Common definitions
+#include <stdio.h>      // Input/output
+#include <stdlib.h>     // General utilities
+#include <string.h>     // String handling
+#include <time.h>       // Date and time
+#include <errno.h>      // Error numbers (also POSIX)
+
+// C99 Standard headers
+#include <stdbool.h>    // Boolean type
+#include <inttypes.h>   // Integer types
+
+// POSIX headers
+#include <fcntl.h>      // File control options
+
+// Windows-specific headers
+#include <process.h>    // Process control functions
+#include <io.h>         // Low-level I/O (Windows POSIX subset)
+#include <conio.h>      // Console I/O (Windows-specific)
 
 // *************************************************
 //            System Defined Macros
 // *************************************************
 
 #define BCXSTRSIZE 2048
-
-// *************************************************
-//             User Defined Macros
-// *************************************************
-
-#define noneditable_combo_style WS_CHILD|WS_VISIBLE|WS_TABSTOP|CBS_HASSTRINGS|CBS_DROPDOWNLIST
 #include <wuapi.h>
 
-// *************************************************
-//                  Compiler Macros
-// *************************************************
-
-#if defined(__cplusplus)
-  #define overloaded
-  #define C_EXPORT EXTERN_C __declspec(dllexport)
-  #define C_IMPORT EXTERN_C __declspec(dllimport)
-#else
-  #define C_EXPORT __declspec(dllexport)
-  #define C_IMPORT __declspec(dllimport)
-#endif
-
+#ifndef    VK_0
+   #define VK_0  0x30
+   #define VK_1  0x31
+   #define VK_2  0x32
+   #define VK_3  0x33
+   #define VK_4  0x34
+   #define VK_5  0x35
+   #define VK_6  0x36
+   #define VK_7  0x37
+   #define VK_8  0x38
+   #define VK_9  0x39
+   #define VK_A  0x41
+   #define VK_B  0x42
+   #define VK_C  0x43
+   #define VK_D  0x44
+   #define VK_E  0x45
+   #define VK_F  0x46
+   #define VK_G  0x47
+   #define VK_H  0x48
+   #define VK_I  0x49
+   #define VK_J  0x4A
+   #define VK_K  0x4B
+   #define VK_L  0x4C
+   #define VK_M  0x4D
+   #define VK_N  0x4E
+   #define VK_O  0x4F
+   #define VK_P  0x50
+   #define VK_Q  0x51
+   #define VK_R  0x52
+   #define VK_S  0x53
+   #define VK_T  0x54
+   #define VK_U  0x55
+   #define VK_V  0x56
+   #define VK_W  0x57
+   #define VK_X  0x58
+   #define VK_Y  0x59
+   #define VK_Z  0x5A
+#endif 
 // *************************************************
 //                   Microsoft VC++
 // *************************************************
@@ -100,10 +128,15 @@
    #pragma warning(disable: 4018) // signed/unsigned mismatch warnings
    #pragma warning(disable: 4100) // unreferenced argument warnings
    #pragma warning(disable: 4244) // conversion from type1 to type2 warnings
+   #pragma warning(disable: 4459) // local hides global declaration
    #pragma warning(disable: 4267) // conversion from type1 to type2 warnings
    #pragma warning(disable: 4305) // truncation from double to float warnings
+   #pragma warning(disable: 4459) // hides global declaration warnings
    #pragma warning(disable: 4800) // forcing value to bool warnings
    #pragma warning(disable: 4838) // conversion from type1 to type2 warnings
+   #pragma warning(disable: 4245) // conversion from type1 to type2 warnings
+   #pragma warning(disable: 4554) // use parentheses to clarify precedence
+   #pragma warning(disable: 4389) // conversion from signed to unsigned warnings
 #endif
 
 // *************************************************
@@ -119,6 +152,7 @@
    #pragma GCC diagnostic ignored "-Wunknown-pragmas"
    #pragma GCC diagnostic ignored "-Wdangling-else"
    #pragma GCC diagnostic ignored "-Wdeprecated"
+   #pragma GCC diagnostic ignored "-Wsizeof-pointer-div"
 #endif
 
 // *************************************************
@@ -126,6 +160,7 @@
 // *************************************************
 
 #if defined(__BCPLUSPLUS__)
+      #include<malloc.h>
       #if defined (_clang__)
           #include <mmintrin.h>
       #endif
@@ -135,12 +170,12 @@
       #endif
 #endif
 
-
 // *************************************************
 //                     Lcc-Win32
 // *************************************************
 
 #if defined(__LCC__)
+    #define _strdup    strdup
     #define _fseeki64  fseek
     #define _ftelli64  ftell
     #define _stricmp   stricmp
@@ -177,12 +212,14 @@
     #pragma warn(disable: 2230)    // Incomplete struct declarations (vbs support)
     #pragma warn(disable: 2235)    // Not all control paths return a value
     #pragma warn(disable: 2241)    // Function marked for deprecation
+    #pragma warn(disable: 2243)    // Use parentheses to clarify
     #pragma warn(disable: 2248)    // Non-portable use of extension
     #pragma warn(disable: 2251)    // Types with different signedness
     #pragma warn(disable: 2804)    // Consider changing type to size_t warnings
     #pragma warn(disable: 2805)    // Possible anti-aliasing violation warnings
     #pragma warn(disable: 2808)    // Unsequenced assignment warnings
     #pragma warn(disable: 2810)    // Potential realloc warnings
+    #pragma warn(disable: 2812)    // Attempt to read from non-readable location
     #pragma warn(disable: 2813)    // Possible out-of-bounds warning (caused by CAST)
 #endif
 
@@ -231,17 +268,17 @@
 #endif
 
 // *************************************************
-//               Standard Prototypes
+//               Standard Prototypes 
 // *************************************************
 
-char*   BCX_TmpStr (size_t);
+char*   BCX_TempStr (size_t);
 char*   mid (LPCTSTR, int, int=-1);
 char*   left (LPCTSTR, int);
 char*   replace (LPCTSTR, LPCTSTR, LPCTSTR);
 char*   str (double, int=0);
 char*   RemoveStr (LPCTSTR, LPCTSTR);
-char*   join (int, ... );
-int     instr (LPCTSTR, LPCTSTR, int=0, int=0);
+char*    join(int, LPCTSTR, ...);
+int     instr (LPCTSTR, LPCTSTR, int=1, int=0);
 char*   _stristr_(LPCTSTR, LPCTSTR);
 void    Pause (void);
 int     scan (LPCTSTR input, LPCTSTR format, ... );
@@ -257,6 +294,14 @@ unsigned char*  MakeUCaseTbl (void);
 #define COM_MSGBOX(a,b,c)MessageBox(GetActiveWindow(),(a),(b),(c))
 #define COM_PROPS DISPATCH_PROPERTYGET|DISPATCH_METHOD
 #define COM_PARAMS COM_param_list.pParams
+
+//<---UNICODE AWARE
+char*   WideToAnsi (BSTR, UINT = CP_ACP, ULONG = 0);
+//>---UNICODE AWARE
+
+//<---UNICODE AWARE
+LPOLESTR AnsiToWide (LPCSTR, UINT = CP_ACP, ULONG = MB_PRECOMPOSED);
+//>---UNICODE AWARE
 
 HRESULT  COM_AS2WS (LPCSTR  ansi_string, UINT code_page = CP_ACP);
 HRESULT  COM_WS2AS (LPCWSTR wide_string, UINT code_page = CP_ACP);
@@ -316,10 +361,6 @@ void     BCX_GetObject          (TCHAR *objname, OBJECT *obj);
 void     BCX_GetObjectMon       (LPCOLESTR objname, OBJECT *obj);
 void     BCX_DispatchObject     (IUnknown *iobj, OBJECT *obj, BOOL b_release = TRUE);
 
-// *************************************************
-//                System Variables
-// *************************************************
-
 static int     ScanError;          // holds last error from scan function
 static char    InputBuffer[1048577];
 static unsigned char*  UprCase;
@@ -353,7 +394,7 @@ static IEnumVARIANT*   COM_enum_var = NULL;
 static ULONG           COM_long_coll = 0;
 
 // *************************************************
-//            User's Global Variables
+//            User's Global Variables 
 // *************************************************
 
 static OBJECT  Session;
@@ -369,62 +410,56 @@ static char    Input[BCXSTRSIZE];
 static char    ToHide[100][BCXSTRSIZE];
 
 // *************************************************
-//               Standard Macros
+//               Standard Macros 
 // *************************************************
 
 #define VAL(a)(double)atof((a))
 
-// *************************************************
-//               User's Prototypes
-// *************************************************
-
-void    MakeSingleInstance (char *);
-
-// *************************************************
-//            User's Global Initialized Arrays
-// *************************************************
-
-
-// *************************************************
-//                 Runtime Functions
-// *************************************************
-
-char *BCX_TmpStr (size_t iBytes)
+char *BCX_TempStr(size_t iBytes)
 {
-  static int   StrCnt;
+  static int StrCnt;
   static char *StrFunc[2048];
-  StrCnt = (StrCnt + 1) & (2047);
-  if (StrFunc[StrCnt])
-  {
-    free (StrFunc[StrCnt]);
+  static CRITICAL_SECTION cs;
+  static int initialized = 0;
+  // Initialize the critical section once
+  if (!initialized) {
+    InitializeCriticalSection(&cs);
+    initialized = 1;
+  }
+  EnterCriticalSection(&cs);
+  StrCnt = (StrCnt + 1) & 2047;
+  if (StrFunc[StrCnt]) {
+    free(StrFunc[StrCnt]);
     StrFunc[StrCnt] = NULL;
   }
-  StrFunc[StrCnt] = (char*)calloc(iBytes+1, sizeof(char));
+  StrFunc[StrCnt] = (char*)calloc(iBytes + 1, sizeof(char));
+  if (!StrFunc[StrCnt]) {
+    LeaveCriticalSection(&cs);
+    return NULL; // Allocation failed
+  }
+  LeaveCriticalSection(&cs);
   return StrFunc[StrCnt];
 }
-
 
 char *left (LPCTSTR szSrc, int length)
 {
   size_t tmplen = strlen(szSrc);
-  if (length < 1) return BCX_TmpStr(1);
+  if (length < 1) return BCX_TempStr(1);
   if (length < (int)tmplen) tmplen = length;
-  char *strtmp = BCX_TmpStr(tmplen);
+  char *strtmp = BCX_TempStr(tmplen);
   return (char*)memcpy(strtmp, szSrc, tmplen);
 }
-
 
 char *mid (LPCTSTR szSrc, int start, int length)
 {
   char *strtmp;
   int tmplen = (int)strlen(szSrc);
-  if (start > tmplen||start < 1) return BCX_TmpStr(1);
+  if (start > tmplen||start < 1) return BCX_TempStr(1);
   if (length < 0 || length > (tmplen-start) + 1)
     length = (tmplen-start) + 1;
-  strtmp = BCX_TmpStr(length);
+  strtmp = BCX_TempStr(length);
   return (char*)memcpy(strtmp, &szSrc[start - 1], length);
 }
-
 
 char *replace (LPCTSTR szMain, LPCTSTR szFind, LPCTSTR szRepl)
 {
@@ -438,7 +473,7 @@ char *replace (LPCTSTR szMain, LPCTSTR szFind, LPCTSTR szRepl)
        cp_p = cp_q + LenPat)
     iTmp += (int)(cp_q - cp_p) + LenRep;
   iTmp += strlen(cp_p);
-  strtmp = BCX_TmpStr(iTmp);
+  strtmp = BCX_TempStr(iTmp);
   if (!strtmp) return NULL;
   for (cp_r = strtmp, cp_p=(char*)szMain;
        (cp_q=strstr(cp_p,(char*)szFind))!=0;
@@ -452,12 +487,11 @@ char *replace (LPCTSTR szMain, LPCTSTR szFind, LPCTSTR szRepl)
   return strtmp;
 }
 
-
 char *RemoveStr (LPCTSTR szSrc, LPCTSTR RemoveMe)
 {
   char *strtmp, *pp, *dd;
   int  tmplen;
-  strtmp = dd = BCX_TmpStr(strlen(szSrc));
+  strtmp = dd = BCX_TempStr(strlen(szSrc));
   if ((!RemoveMe) || (!*RemoveMe)) return strcpy(strtmp, szSrc);
   pp = strstr((char*)szSrc, (char*)RemoveMe); tmplen = (int)strlen(RemoveMe);
   while (pp)
@@ -471,10 +505,9 @@ char *RemoveStr (LPCTSTR szSrc, LPCTSTR RemoveMe)
   return strtmp;
 }
 
-
 char *str(double d_, int nospc)
 {
-  char *strtmp = BCX_TmpStr(64);
+  char *strtmp = BCX_TempStr(64);
   if (nospc)
     snprintf(strtmp, 64, "%.15G", d_);
   else
@@ -482,32 +515,43 @@ char *str(double d_, int nospc)
   return strtmp;
 }
 
-
-char *join(int n, ...)
+char *join(int ArgCount, LPCTSTR Str1, ...)
 {
-  int ii = n, tmplen = 0;
-  char *s_;
-  char *strtmp;
-  va_list marker;
-  va_start(marker, n); // Initialize variable arguments
-  while(ii-- > 0)
-  {
-    s_ = va_arg(marker, char *);
-    if (s_) tmplen += (int)strlen(s_);
-  }
-  strtmp = BCX_TmpStr(tmplen);
-  va_end(marker); // Reset variable arguments
-  ii = n;
-  va_start(marker, n); // Initialize variable arguments
-  while(ii-- > 0)
-  {
-    s_ = va_arg(marker, char *);
-    if (s_) strcat(strtmp, s_);
-  }
-  va_end(marker); // Reset variable arguments
-  return strtmp;
+  va_list  ap={0};
+  PSTR BCX_RetStr = NULL;
+  PSTR currentStr = NULL;
+  int i;
+  size_t totalLen;
+  totalLen = strlen(Str1);
+                                      //  Calc memory reqmnt
+  va_start(ap,Str1);
+  for(i=1; i<=ArgCount-1; i++)
+    {
+      currentStr = va_arg(ap,PSTR);
+      if(strlen(currentStr)>0 ){
+          totalLen += (int)strlen(currentStr);
+        }
+    }
+  va_end(ap);
+                                      //  Allocate memory
+  BCX_RetStr = BCX_TempStr(totalLen);
+  if(BCX_RetStr == 0 ){
+      return NULL;                    //   Not a good sign :-(
+    }
+                                      //   Init result with Str1
+  strcpy(BCX_RetStr,Str1);
+                                      //   Concat remainiing strings
+  va_start(ap,Str1);
+  for(i=1; i<=ArgCount-1; i++)
+    {
+      currentStr = va_arg(ap,PSTR);
+      if((int)strlen(currentStr)>0 ){
+          strcat(BCX_RetStr,currentStr);
+        }
+    }
+  va_end(ap);
+  return BCX_RetStr;
 }
-
 
 char *_stristr_(LPCTSTR Haystack, LPCTSTR Needle)
 {
@@ -524,6 +568,17 @@ char *_stristr_(LPCTSTR Haystack, LPCTSTR Needle)
   return (char*)Haystack;
 }
 
+//<---UNICODE AWARE
+char* WideToAnsi (BSTR WideStr, UINT CodePage, ULONG dwFlags)
+{
+  char *BCX_RetStr;
+  UINT uLen;
+  uLen = WideCharToMultiByte(CodePage, dwFlags, WideStr,-1,0,0,0,0);
+  BCX_RetStr = (char*)BCX_TempStr(uLen);
+  WideCharToMultiByte(CodePage, dwFlags, WideStr, -1, BCX_RetStr,uLen,0,0);
+  return BCX_RetStr;
+}
+//>---UNICODE AWARE
 
 void Pause(void)
 {
@@ -531,18 +586,17 @@ void Pause(void)
   _getch();
 }
 
-
 int instr(LPCTSTR Haystack, LPCTSTR Needle, int offset, int sensflag)
 {
+  if(offset == 0) {return 0;}
   LPCTSTR s;
-  if (!Haystack || !Needle || ! *Needle || offset > (int)strlen(Haystack)) return 0;
+  if (!Haystack||!*Haystack||!Needle||!*Needle||offset>(int)strlen(Haystack)) return 0;
   if (sensflag)
-    s = _stristr_(offset > 0 ? Haystack + offset-1 : Haystack, Needle);
+    s = _stristr_(offset > 0 ? Haystack + offset - 1 : Haystack, Needle);
   else
-    s = strstr(offset > 0 ? Haystack + offset-1 : Haystack, Needle);
+    s = strstr(offset > 0 ? Haystack + offset - 1 : Haystack, Needle);
   return s ? (int)(s-Haystack)+1 : 0;
 }
-
 
 unsigned char* MakeUCaseTbl (void)
 {
@@ -555,7 +609,6 @@ unsigned char* MakeUCaseTbl (void)
   tbl[0] = 0;
   return tbl;
 }
-
 
 int scan(LPCTSTR input, LPCTSTR format, ... )
 {
@@ -610,14 +663,12 @@ int scan(LPCTSTR input, LPCTSTR format, ... )
   return(-1);                  // More variables than data
 }
 
-
 void KBinput (void)
 {
   *InputBuffer = 0;
   fgets(InputBuffer, 0x100000, stdin);
   InputBuffer[(int)strlen(InputBuffer)-1]=0;
 }
-
 
 int Split (char Buf[][BCXSTRSIZE], LPCTSTR T, LPCTSTR Delim, int Flg)
 {
@@ -673,79 +724,78 @@ int Split (char Buf[][BCXSTRSIZE], LPCTSTR T, LPCTSTR Delim, int Flg)
   return Count;
 }
 
-
-// *************************************************
-//              COM Runtime Functions
-// *************************************************
+//<---UNICODE AWARE
+LPOLESTR AnsiToWide (LPCSTR AnsiStr, UINT CodePage, ULONG dwFlags)
+{
+  UINT uLen;
+  BSTR WideStr;
+  uLen = MultiByteToWideChar(CodePage,dwFlags,AnsiStr,-1,0,0);
+  if (uLen<=1) return (BSTR) BCX_TempStr(2);
+  WideStr = (BSTR) BCX_TempStr(2*uLen);
+  MultiByteToWideChar(CodePage,dwFlags,AnsiStr,uLen,WideStr,uLen);
+  return WideStr;
+}
+//>---UNICODE AWARE
 
 OBJECT COM (LPCTSTR szProgID_) {
-  static OBJECT oProxy;
-  BCX_CreateObject ((char*)szProgID_, &oProxy);
-  return oProxy;
+    static OBJECT oProxy;
+    BCX_CreateObject ((char*)szProgID_, &oProxy);
+    return oProxy;
 }
-
 
 void UNCOM (OBJECT oObj_) {
-  static OBJECT oProxy;
-  oProxy = oObj_;
-  BCX_SetNothing (&oProxy);
+    static OBJECT oProxy;
+    oProxy = oObj_;
+    BCX_SetNothing (&oProxy);
 }
-
 
 int ISOBJECT (OBJECT Obj) {
-  if(Obj.pStatus)
-      return TRUE;
- else
-     return FALSE;
+    if(Obj.pStatus)
+        return TRUE;
+   else
+       return FALSE;
 }
-
 
 HRESULT BCX_GET_COM_ERROR_CODE (void) {
-  return COM_last_HR;
+    return COM_last_HR;
 }
-
 
 _TCHAR* BCX_GET_COM_ERROR_DESC (void) {
-  return COM_last_ErrMsg;
+    return COM_last_ErrMsg;
 }
-
 
 BOOL BCX_GET_COM_SUCCESS (void) {
-  return (!COM_BCX_ERROR);
+    return (!COM_BCX_ERROR);
 }
-
 
 void BCX_SHOW_COM_ERRORS (BOOL Show_err) {
-  COM_bSHOW_ERROR = Show_err;
+    COM_bSHOW_ERROR = Show_err;
 }
-
 
 BOOL BCX_GET_COM_STATUS(OBJECT *object) {
-  if(object)
-    return object->pStatus;
-  return 0;
+    if(object)
+        return object->pStatus;
+    return 0;
 }
 
-
 void  COM_clean_plist (void) {
-  int total_parms = COM_plist_index;
-  if (COM_plist_index > 0)
-  {
-    do
-    {
-      COM_last_HR = VariantClear (&COM_PARAMS[COM_plist_index-1]);
-      if (FAILED(COM_last_HR))
-      {
+int total_parms = COM_plist_index;
+if (COM_plist_index > 0)
+   {
+      do
+   {
+        COM_last_HR = VariantClear (&COM_PARAMS[COM_plist_index-1]);
+        if (FAILED(COM_last_HR))
+        {
         wsprintf (COM_ErrMsg, _T("\nVariant type = %d, at index %d, total params = %d."),
                   COM_PARAMS[COM_plist_index-1].vt, COM_plist_index-1, total_parms);
         COM_HR_ErrMsg (COM_last_HR, _T("Error while cleaning parameter list."));
       }
-      COM_plist_index--;
+        COM_plist_index--;
     }
-    while (COM_plist_index > 0);
+      while (COM_plist_index > 0);
   }
 }
-
 
 void  COM_reset_disp_chain (OBJECT *object) {
   if (object->ipointer>COM_dispatch_at_offset)
@@ -759,7 +809,6 @@ void  COM_reset_disp_chain (OBJECT *object) {
   }
 }
 
-
 void  COM_ole_uninitialize (void) {
   if (COM_objects_cnt)
   {
@@ -772,7 +821,6 @@ void  COM_ole_uninitialize (void) {
   CoUninitialize();
 }
 
-
 void  COM_get_next_dispatch (OBJECT *object, LPOLESTR comsegment) {
   if (!object->pStatus) return;
   if (0 == object->ipointer) COM_BCX_ERROR = FALSE;
@@ -784,12 +832,11 @@ void  COM_get_next_dispatch (OBJECT *object, LPOLESTR comsegment) {
      object->ipointer++;
 }
 
-
 void COM_HR_ErrMsg (HRESULT hr, _TCHAR *extra_info) {
   COM_BCX_ERROR = TRUE;
   PVOID pMsgBuf;
 
-  FormatMessage (FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+  FormatMessage (FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM,
   NULL, hr, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&pMsgBuf, 0, NULL);
 
   wsprintf(COM_last_ErrMsg, _T("COM error code %d (0x%X)\n%s\n%s\nmember: %s"),
@@ -801,7 +848,6 @@ void COM_HR_ErrMsg (HRESULT hr, _TCHAR *extra_info) {
       MB_OK|MB_ICONERROR|MB_SYSTEMMODAL);
   LocalFree(pMsgBuf);
 }
-
 
 void BCX_SetNothing (OBJECT *obj) {
   if (!obj->pStatus) return;
@@ -825,7 +871,6 @@ void BCX_SetNothing (OBJECT *obj) {
   obj->pStatus = FALSE;
   Sleep(100);
 }
-
 
 void COM_ole_initialize (void) {
   if (COM_ole_initd) return;
@@ -869,7 +914,6 @@ void COM_ole_initialize (void) {
   else
     COM_HR_ErrMsg (COM_last_HR,_T("CoInitializeEx Failed!"));
 }
-
 
 void COM_build_except_info (HRESULT hr, EXCEPINFO *pexcep, UINT uiArgErr) {
   SCODE oleSCODE;
@@ -963,7 +1007,6 @@ void COM_build_except_info (HRESULT hr, EXCEPINFO *pexcep, UINT uiArgErr) {
   }
 }
 
-
 DISPID COM_get_dispatch_ID (IDispatch* lpDispatch, LPOLESTR comsegment) {
   static DISPID D_ID;
   D_ID = 0;
@@ -982,7 +1025,6 @@ DISPID COM_get_dispatch_ID (IDispatch* lpDispatch, LPOLESTR comsegment) {
   }
   return D_ID;
 }
-
 
 void COM_invoke (OBJECT *object, LPOLESTR comsegment, WORD wFlags, VARIANT *pvResult) {
   if (!object->pStatus) return;
@@ -1055,7 +1097,6 @@ cleanInProp:
   if (0 == COM_reset_chain)  COM_reset_disp_chain(object);
 }
 
-
 void BCX_CreateObject (_TCHAR *objname, OBJECT *obj) {
   if (!COM_ole_initd) COM_ole_initialize();
   CLSID clsid;
@@ -1122,7 +1163,6 @@ void BCX_CreateObject (_TCHAR *objname, OBJECT *obj) {
     COM_objects_cnt++;
   }
 }
-
 
 void BCX_GetObject (_TCHAR *objname, OBJECT *obj) {
   if (!COM_ole_initd) COM_ole_initialize();
@@ -1198,7 +1238,6 @@ void BCX_GetObject (_TCHAR *objname, OBJECT *obj) {
   }
 }
 
-
 void BCX_GetObjectMon (LPCOLESTR objname, OBJECT *obj) {
   IBindCtx* vBindCtx = NULL;
   IMoniker* vMoniker = NULL;
@@ -1243,7 +1282,6 @@ CleanGetObjectMon:
   #endif
 }
 
-
 void BCX_DispatchObject(IUnknown *iobj, OBJECT *obj, BOOL b_release) {
   if (!obj) return;
   static ULONG inc_inf_ussage=0;
@@ -1287,7 +1325,6 @@ void BCX_DispatchObject(IUnknown *iobj, OBJECT *obj, BOOL b_release) {
   COM_objects_cnt++;
 }
 
-
 void COM_create_safearray(void) {
   long lv_param_incr = 0;
   long lv_param_incr_rev = 0;
@@ -1327,7 +1364,6 @@ void COM_create_safearray(void) {
   }
 }
 
-
 HRESULT COM_WS2AS(LPCWSTR wide_string, UINT code_page) {
   if (wide_string==NULL) return (HRESULT) NO_ERROR;
   ULONG bytes_copied=0;
@@ -1354,7 +1390,6 @@ HRESULT COM_WS2AS(LPCWSTR wide_string, UINT code_page) {
   return (HRESULT)NO_ERROR;
 }
 
-
 HRESULT COM_AS2WS(LPCSTR ansi_string, UINT code_page) {
   if (!*ansi_string) return (HRESULT)NO_ERROR;
   ULONG ansi_str_len = (ULONG)strlen (ansi_string);
@@ -1379,7 +1414,6 @@ HRESULT COM_AS2WS(LPCSTR ansi_string, UINT code_page) {
   return (HRESULT)NO_ERROR;
 }
 
-
 void COM_FREE_TEMP_WIDE_STRING(void) {
   if (COM_LPWSTR_temp)
   {
@@ -1388,7 +1422,6 @@ void COM_FREE_TEMP_WIDE_STRING(void) {
   }
 }
 
-
 void COM_FREE_TEMP_ANSI_STRING (void) {
   if (COM_psz_tmp)
   {
@@ -1396,29 +1429,9 @@ void COM_FREE_TEMP_ANSI_STRING (void) {
     COM_psz_tmp = NULL;
   }
 }
-// *************************************************
-//            User's Subs and Functions
-// *************************************************
-
-void MakeSingleInstance (char *AppID)
-{
-  HANDLE   hMutex= {0};
-  hMutex=OpenMutex(MUTEX_ALL_ACCESS,0,join(2,AppID,"_IsAlreadyRunning"));
-  if(!hMutex ){
-      hMutex=CreateMutex(0,0,join(2,AppID,"_IsAlreadyRunning"));
-    }
-  else
-    {
-      MessageBox (GetActiveWindow(),join(3,"Another instance of ",AppID," is already running."),"Error",MB_ICONERROR );
-      fflush(stdout);
-      ExitProcess(0);
-    }
-}
-
-
 
 // *************************************************
-//                  Main Program
+//                  Main Program 
 // *************************************************
 
 int main(int argc, char *argv[])
@@ -1693,7 +1706,7 @@ int main(int argc, char *argv[])
   
       if (FAILED(COM_last_HR)) {
         strcpy(COM_ErrMsg ,"Update");
-        COM_HR_ErrMsg (COM_last_HR, _T("VariantChangeType failed. Expected IDispatch*"));
+        COM_HR_ErrMsg (COM_last_HR, _T(   "VariantChangeType failed. Expected IDispatch*"));
       } else {
         VariantInit(&Update.pObjects[0]);
         COM_last_HR = VariantCopy(&Update.pObjects[0],&COM_vt_result);
@@ -1709,42 +1722,44 @@ int main(int argc, char *argv[])
       } 
       VariantClear(&COM_vt_result);
       if (0 == COM_reset_chain) COM_reset_disp_chain(&Updates);
-      char    Title[BCXSTRSIZE]= {0};
-      lstrcpy(COM_ErrMsg, _T("Title"));
-      COM_invoke(&Update, L"Title",COM_PROPS, &COM_vt_result);
+      if(ISOBJECT(Update)){
+          char    Title[BCXSTRSIZE]= {0};
+          lstrcpy(COM_ErrMsg, _T("Title"));
+          COM_invoke(&Update, L"Title",COM_PROPS, &COM_vt_result);
   
-      if(COM_vt_result.vt == VT_NULL){
-        *Title=0;
-      } else {
-      COM_last_HR = VariantChangeType(&COM_vt_result,&COM_vt_result,0,VT_BSTR);
+          if(COM_vt_result.vt == VT_NULL){
+            *Title=0;
+          } else {
+          COM_last_HR = VariantChangeType(&COM_vt_result,&COM_vt_result,0,VT_BSTR);
   
-      if (FAILED(COM_last_HR)) {
-        COM_HR_ErrMsg (COM_last_HR,_T("VariantChangeType (BSTR) Failed!"));
-      } else {
-        #ifndef UNICODE
-        COM_last_HR = COM_WS2AS(COM_vt_result.bstrVal);
-        if (FAILED(COM_last_HR)) {
-          COM_HR_ErrMsg (COM_last_HR,_T("COM Get Property Failed! W2A failure!"));
-        } else {
-         strcpy(Title, COM_psz_tmp);
+          if (FAILED(COM_last_HR)) {
+            COM_HR_ErrMsg (COM_last_HR,_T("VariantChangeType (BSTR) Failed!"));
+          } else {
+            #ifndef UNICODE
+            COM_last_HR = COM_WS2AS(COM_vt_result.bstrVal);
+            if (FAILED(COM_last_HR)) {
+              COM_HR_ErrMsg (COM_last_HR,_T("COM Get Property Failed! W2A failure!"));
+            } else {
+             strcpy(Title, COM_psz_tmp);
+            }
+            #else
+            lstrcpy(Title,COM_vt_result.bstrVal);
+            #endif
+          }
+          }
+          VariantClear(&COM_vt_result);
+          if (0 == COM_reset_chain) COM_reset_disp_chain(&Update);
+          lstrcpy(COM_ErrMsg, _T("IsHidden"));
+          COM_PARAMS[0].vt = VT_BOOL;
+          COM_PARAMS[0].boolVal = VARIANT_TRUE;
+          COM_plist_index = 1;
+  
+          if (!COM_BCX_ERROR)
+            COM_invoke(&Update, L"IsHidden", DISPATCH_PROPERTYPUT, NULL);
+  
+          printf("%s%s\n","Hid ",Title);
+          UNCOM(Update);
         }
-        #else
-        lstrcpy(Title,COM_vt_result.bstrVal);
-        #endif
-      }
-      }
-      VariantClear(&COM_vt_result);
-      if (0 == COM_reset_chain) COM_reset_disp_chain(&Update);
-      lstrcpy(COM_ErrMsg, _T("IsHidden"));
-      COM_PARAMS[0].vt = VT_BOOL;
-      COM_PARAMS[0].boolVal = VARIANT_TRUE;
-      COM_plist_index = 1;
-  
-      if (!COM_BCX_ERROR)
-        COM_invoke(&Update, L"IsHidden", DISPATCH_PROPERTYPUT, NULL);
-  
-      printf("%s%s\n","Hid ",Title);
-      UNCOM(Update);
     }
   Pause();
   UNCOM(Updates);

@@ -43,11 +43,13 @@ For I = 0 To NumSelections - 1
     CurIndex = Val(ToHide[I])
     If CurIndex <= 0 Or CurIndex > NumUpdates Then Continue
     Comset Update = Updates.Item(CurIndex - 1)
-    Dim Title$
-    Title$ = Update.Title
-    Update.IsHidden = True
-    Print "Hid " & Title$
-    Uncom(Update)
+    If IsObject(Update) Then
+        Dim Title$
+        Title$ = Update.Title
+        Update.IsHidden = True
+        Print "Hid " & Title$
+        Uncom(Update)
+    End If
 Next
 Pause
 Uncom(Updates)
