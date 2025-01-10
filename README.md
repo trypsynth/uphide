@@ -6,3 +6,6 @@ Due to how the Windows update API works, this program requires administrative pr
 
 ## Download
 [Download Uphide](https://quinbox.xyz/files/uphide.exe)
+
+## Todo
+For some reason, after hiding at least one update, if you have error reporting set to on, Windows will show a "this program has stopped working error". This doesn't really effect anything and the updates still hide just fine, but I would like to fix it and at the time of writing it is being actively investigated.
