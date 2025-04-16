@@ -6,7 +6,7 @@ Uphide is a small, standalone Windows utility that brings back this functionalit
 ## Features
 * Lists all pending (uninstalled and unhidden) updates.
 * Lets you select updates to hide by number.
-* Fully standalone and lightweight executable, coming in at under 100 KB and requiring no runtimes or frameworks to run.
+* Fully standalone and lightweight executable, coming in at just under 30 KB when compiled with MSVC and using the UCRT. It compiling to C code also means that it requires no runtimes or frameworks to run.
 * Based on native Windows Update COM interfaces.
 
 ## Usage
