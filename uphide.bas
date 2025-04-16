@@ -1,3 +1,6 @@
+$No_Borland
+$No_LCCWin
+$Noini
 #include <wuapi.h>
 
 Dim As Object Session, Searcher, SearchResult, Update, Updates
@@ -44,7 +47,7 @@ For I = 0 To NumSelections - 1
     If IsObject(Update) Then
         Dim Title$
         Title$ = Update.Title
-        Update.IsHidden = True
+        Update.Ishidden = True
         ? "Hid " & Title$
         Uncom(Update)
     End If

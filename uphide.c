@@ -158,43 +158,6 @@
 #endif
 
 // *************************************************
-//                  Embarcadero C++
-// *************************************************
-
-#if defined(__BCPLUSPLUS__)
-      #include<malloc.h>
-      #if defined (_clang__)
-          #include <mmintrin.h>
-      #endif
-      #define _kbhit kbhit
-      #ifndef _rdtsc
-         #define _rdtsc __rdtsc  // Uses 2 underscores
-      #endif
-#endif
-
-// *************************************************
-//                     Lcc-Win32
-// *************************************************
-
-#if defined(__LCC__)
-    #define _strdup    strdup
-    #define _fseeki64  fseek
-    #define _ftelli64  ftell
-    #define _stricmp   stricmp
-    #define _strnicmp  strnicmp
-    #define _itoa      itoa
-    #define _ltoa      ltoa
-    #include <intrinsics.h>
-    #include <malloc.h>  // for _msize
-    #if defined(__windows_h__)
-       #define COMPILE_MULTIMON_STUBS
-       #include <multimon.h>
-       #include <iehelper.h>
-       #include <exdisp.h>
-    #endif
-#endif
-
-// *************************************************
 //                     Pelles C
 // *************************************************
 
@@ -1750,13 +1713,13 @@ int main(int argc, char *argv[])
           }
           VariantClear(&COM_vt_result);
           if (0 == COM_reset_chain) COM_reset_disp_chain(&Update);
-          lstrcpy(COM_ErrMsg, _T("IsHidden"));
+          lstrcpy(COM_ErrMsg, _T("Ishidden"));
           COM_PARAMS[0].vt = VT_BOOL;
           COM_PARAMS[0].boolVal = VARIANT_TRUE;
           COM_plist_index = 1;
   
           if (!COM_BCX_ERROR)
-            COM_invoke(&Update, L"IsHidden", DISPATCH_PROPERTYPUT, NULL);
+            COM_invoke(&Update, L"Ishidden", DISPATCH_PROPERTYPUT, NULL);
   
           printf("%s%s\n","Hid ",Title);
           UNCOM(Update);
