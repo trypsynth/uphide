@@ -71,45 +71,6 @@
 #define BCXSTRSIZE 2048
 #include <wuapi.h>
 
-#ifndef    VK_0
-   #define VK_0  0x30
-   #define VK_1  0x31
-   #define VK_2  0x32
-   #define VK_3  0x33
-   #define VK_4  0x34
-   #define VK_5  0x35
-   #define VK_6  0x36
-   #define VK_7  0x37
-   #define VK_8  0x38
-   #define VK_9  0x39
-   #define VK_A  0x41
-   #define VK_B  0x42
-   #define VK_C  0x43
-   #define VK_D  0x44
-   #define VK_E  0x45
-   #define VK_F  0x46
-   #define VK_G  0x47
-   #define VK_H  0x48
-   #define VK_I  0x49
-   #define VK_J  0x4A
-   #define VK_K  0x4B
-   #define VK_L  0x4C
-   #define VK_M  0x4D
-   #define VK_N  0x4E
-   #define VK_O  0x4F
-   #define VK_P  0x50
-   #define VK_Q  0x51
-   #define VK_R  0x52
-   #define VK_S  0x53
-   #define VK_T  0x54
-   #define VK_U  0x55
-   #define VK_V  0x56
-   #define VK_W  0x57
-   #define VK_X  0x58
-   #define VK_Y  0x59
-   #define VK_Z  0x5A
-#endif 
-
 // *************************************************
 //                   Microsoft VC++
 // *************************************************
@@ -139,22 +100,6 @@
    #pragma warning(disable: 4245) // conversion from type1 to type2 warnings
    #pragma warning(disable: 4554) // use parentheses to clarify precedence
    #pragma warning(disable: 4389) // conversion from signed to unsigned warnings
-#endif
-
-// *************************************************
-//                  GCC and CLANG
-// *************************************************
-
-#if defined(__GNUC__) || defined(__clang__)
-   #ifndef __BCPLUSPLUS__
-      #include <x86intrin.h>
-   #endif
-   #pragma GCC diagnostic ignored "-Wwrite-strings"
-   #pragma GCC diagnostic ignored "-Wunused-parameter"
-   #pragma GCC diagnostic ignored "-Wunknown-pragmas"
-   #pragma GCC diagnostic ignored "-Wdangling-else"
-   #pragma GCC diagnostic ignored "-Wdeprecated"
-   #pragma GCC diagnostic ignored "-Wsizeof-pointer-div"
 #endif
 
 // *************************************************

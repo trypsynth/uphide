@@ -29,4 +29,4 @@ If you leave the input blank, the program exits without hiding anything.
 * After hiding one or more updates, Windows may display a "this program has stopped working" error if Windows Error Reporting is enabled. This does not affect the program’s functionality; the updates are still hidden correctly. This issue is under active investigation.
 
 ## License
-This project is licensed under the [zlib License](LICENSE.md).
+This project is licensed under the [MIT License](LICENSE.md).

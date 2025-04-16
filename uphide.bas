@@ -1,6 +1,8 @@
 $No_Borland
+$No_GCC_Clang
 $No_LCCWin
 $Noini
+$NO_VKKEYS
 #include <wuapi.h>
 
 Dim As Object Session, Searcher, SearchResult, Update, Updates
