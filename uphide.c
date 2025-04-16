@@ -1,6 +1,6 @@
 // *************************************************
 //      Made with BCX BASIC To C/C++ Translator
-//            Version 8.2.0 (12/27/2024)
+//            Version 8.2.5 (02/25/2025)
 // *************************************************
 //    Translated for compiling with a C Compiler
 // *************************************************
@@ -109,6 +109,7 @@
    #define VK_Y  0x59
    #define VK_Z  0x5A
 #endif 
+
 // *************************************************
 //                   Microsoft VC++
 // *************************************************
@@ -134,6 +135,7 @@
    #pragma warning(disable: 4459) // hides global declaration warnings
    #pragma warning(disable: 4800) // forcing value to bool warnings
    #pragma warning(disable: 4838) // conversion from type1 to type2 warnings
+   #pragma warning(disable: 4244) // conversion from type1 to type2 warnings
    #pragma warning(disable: 4245) // conversion from type1 to type2 warnings
    #pragma warning(disable: 4554) // use parentheses to clarify precedence
    #pragma warning(disable: 4389) // conversion from signed to unsigned warnings
@@ -277,9 +279,9 @@ char*   left (LPCTSTR, int);
 char*   replace (LPCTSTR, LPCTSTR, LPCTSTR);
 char*   str (double, int=0);
 char*   RemoveStr (LPCTSTR, LPCTSTR);
-char*    join(int, LPCTSTR, ...);
-int     instr (LPCTSTR, LPCTSTR, int=1, int=0);
+char*   join(int, LPCTSTR, ...);
 char*   _stristr_(LPCTSTR, LPCTSTR);
+int     instr (LPCTSTR, LPCTSTR, int=1, int=0);
 void    Pause (void);
 int     scan (LPCTSTR input, LPCTSTR format, ... );
 void    KBinput (void);
@@ -1437,7 +1439,6 @@ void COM_FREE_TEMP_ANSI_STRING (void) {
 int main(int argc, char *argv[])
 {
   UprCase=(unsigned char*)calloc(257,1), UprCase = MakeUCaseTbl();
-  BCX_SHOW_COM_ERRORS(TRUE);
   Session=COM("Microsoft.Update.Session");
   lstrcpy(COM_ErrMsg, _T("CreateupdateSearcher()"));
   COM_plist_index = 0;
