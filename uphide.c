@@ -1,6 +1,6 @@
 // *************************************************
 //      Made with BCX BASIC To C/C++ Translator
-//            Version 8.2.5 (02/25/2025)
+//            Version 8.2.6 (03/21/2025)
 // *************************************************
 //    Translated for compiling with a C Compiler
 // *************************************************
@@ -70,6 +70,10 @@
 
 #define BCXSTRSIZE 2048
 #include <wuapi.h>
+
+// *************************************************
+//                  Compiler Macros
+// *************************************************
 
 // *************************************************
 //                   Microsoft VC++
@@ -271,6 +275,10 @@ void     BCX_GetObject          (TCHAR *objname, OBJECT *obj);
 void     BCX_GetObjectMon       (LPCOLESTR objname, OBJECT *obj);
 void     BCX_DispatchObject     (IUnknown *iobj, OBJECT *obj, BOOL b_release = TRUE);
 
+// *************************************************
+//                System Variables 
+// *************************************************
+
 static int     ScanError;          // holds last error from scan function
 static char    InputBuffer[1048577];
 static unsigned char*  UprCase;
@@ -324,6 +332,14 @@ static char    ToHide[100][BCXSTRSIZE];
 // *************************************************
 
 #define VAL(a)(double)atof((a))
+
+// *************************************************
+//            User's Global Initialized Arrays
+// *************************************************
+
+// *************************************************
+//                 Runtime Functions 
+// *************************************************
 
 char *BCX_TempStr(size_t iBytes)
 {
@@ -646,6 +662,10 @@ LPOLESTR AnsiToWide (LPCSTR AnsiStr, UINT CodePage, ULONG dwFlags)
   return WideStr;
 }
 //>---UNICODE AWARE
+
+// *************************************************
+//              COM Runtime Functions
+// *************************************************
 
 OBJECT COM (LPCTSTR szProgID_) {
     static OBJECT oProxy;
