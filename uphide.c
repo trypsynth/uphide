@@ -107,37 +107,6 @@
 #endif
 
 // *************************************************
-//                     Pelles C
-// *************************************************
-
-#if defined(__POCC__)
-    #include <intrin.h>
-    #pragma pack_stack(off)
-    #pragma warn(disable: 2006)    // Non-portable conversion int to const char*
-    #pragma warn(disable: 2007)    // Non-portable inline code
-    #pragma warn(disable: 2073)    // Loss of precision float to int
-    #pragma warn(disable: 2115)    // Initialized but not used warnings
-    #pragma warn(disable: 2118)    // Unreferenced argument warnings
-    #pragma warn(disable: 2134)    // Possible infinite loop
-    #pragma warn(disable: 2154)    // Buggy unreachable code warning using sizeof
-    #pragma warn(disable: 2197)    // Unsigned long int not a std bit-field type
-    #pragma warn(disable: 2215)    // Conversion from type1 to type2 warnings
-    #pragma warn(disable: 2218)    // Unreferenced parameter
-    #pragma warn(disable: 2230)    // Incomplete struct declarations (vbs support)
-    #pragma warn(disable: 2235)    // Not all control paths return a value
-    #pragma warn(disable: 2241)    // Function marked for deprecation
-    #pragma warn(disable: 2243)    // Use parentheses to clarify
-    #pragma warn(disable: 2248)    // Non-portable use of extension
-    #pragma warn(disable: 2251)    // Types with different signedness
-    #pragma warn(disable: 2804)    // Consider changing type to size_t warnings
-    #pragma warn(disable: 2805)    // Possible anti-aliasing violation warnings
-    #pragma warn(disable: 2808)    // Unsequenced assignment warnings
-    #pragma warn(disable: 2810)    // Potential realloc warnings
-    #pragma warn(disable: 2812)    // Attempt to read from non-readable location
-    #pragma warn(disable: 2813)    // Possible out-of-bounds warning (caused by CAST)
-#endif
-
-// *************************************************
 // Instruct Linker to Search Object/Import Libraries
 // *************************************************
 

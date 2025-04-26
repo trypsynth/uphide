@@ -2,6 +2,7 @@ $No_Borland
 $No_GCC_Clang
 $No_LCCWin
 $Noini
+$No_Pelles
 $NO_VKKEYS
 #include <wuapi.h>
 
