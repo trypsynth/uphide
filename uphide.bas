@@ -28,7 +28,7 @@ For Each Item In Updates
     Dim Title$
     Title$ = Item.Title
     ? Str$(Index, 1) & ": " & Title$
-    Index++
+    Incr Index
 Next
 Dim Input$
 Input Input$
