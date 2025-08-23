@@ -1,3 +1,1 @@
-*.exe
-*.obj
-*.txt
+build/
