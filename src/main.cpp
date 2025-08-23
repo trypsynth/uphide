@@ -41,7 +41,7 @@ void print_instructions() {
 
 int main() {
 	try {
-		WindowsUpdateManager manager;
+		windows_update_manager manager;
 		manager.search_for_updates();
 		if (!manager.has_updates()) {
 			std::cout << "No updates available.\nPress Enter to exit...";
