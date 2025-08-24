@@ -6,7 +6,7 @@ Uphide is a small, standalone Windows utility that brings back this functionalit
 ## Features
 * Lists all pending (uninstalled and unhidden) updates.
 * Lets you select updates to hide by number.
-* Fully standalone and lightweight executable, coming in at just under 30 KB when compiled with MSVC and using the UCRT. It compiling to C code also means that it requires no runtimes or frameworks to run.
+* Fully standalone and lightweight executable, coming in at just under 50 KB when compiled with MSVC. It has no runtime dependencies other than the Windows Update Service.
 * Based on native Windows Update COM interfaces.
 
 ## Usage
@@ -20,13 +20,10 @@ If you leave the input blank, the program exits without hiding anything.
 ## Requirements
 * Windows 10 or newer.
 * Administrative privileges.
-    * A `.res` file (`uac.res`) is included in the repo to embed the required manifest. Be sure to link it during compilation to enable the UAC elevation prompt.
+    * Note: by default when built with CMake using MSVC, a manifest will be linked that automatically shows a UAC prompt on launch.
 
 ## Download
 [Download Uphide](https://quinbox.xyz/files/uphide.exe)
-
-## Known Issues
-* After hiding one or more updates, Windows may display a "this program has stopped working" error if Windows Error Reporting is enabled. This does not affect the program’s functionality; the updates are still hidden correctly. This issue is under active investigation.
 
 ## License
 This project is licensed under the [MIT License](LICENSE.md).
