@@ -1,0 +1,24 @@
+[package]
+name = "uphide"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+windows = { version = "0.62.2", features = [
+    "Win32_Foundation",
+    "Win32_System_Com",
+    "Win32_System_Ole",
+    "Win32_System_UpdateAgent",
+    "Win32_System_Diagnostics_Debug",
+    "Win32_System_Memory",
+]}
+
+[build-dependencies]
+winresource = "0.1.27"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
