@@ -38,7 +38,7 @@ fn run() -> Result<(), ComError> {
 	}
 	let (mut indices, invalid) = cli::parse_user_input(&user_input);
 	for tok in invalid {
-		println!("Warning: '{}' is not a valid number. Skipping.", tok);
+		println!("Warning: '{tok}' is not a valid number. Skipping.");
 	}
 	if indices.is_empty() {
 		return Ok(());

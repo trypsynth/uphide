@@ -18,8 +18,8 @@ pub struct UpdateInfo {
 }
 
 pub struct UpdateManager {
-	com: ComInit,
-	session: IUpdateSession,
+	_com: ComInit,
+	_session: IUpdateSession,
 	searcher: IUpdateSearcher,
 	search_result: Option<ISearchResult>,
 	collection: Option<IUpdateCollection>,
@@ -43,7 +43,7 @@ impl UpdateManager {
 			searcher
 				.SetClientApplicationID(&id)
 				.map_err(|e| ComError::new(e.code(), "Failed to set client application ID"))?;
-			Ok(Self { com, session, searcher, search_result: None, collection: None, updates: Vec::new() })
+			Ok(Self { _com: com, _session: session, searcher, search_result: None, collection: None, updates: Vec::new() })
 		}
 	}
 
