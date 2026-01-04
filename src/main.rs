@@ -1,9 +1,17 @@
+#![warn(clippy::all, clippy::pedantic, clippy::nursery)]
+
+mod cli;
+mod com;
+mod error;
+mod update;
+
 use std::{
 	io::{self, Write},
 	process,
 };
 
-use uphide::{cli, error::ComError, update::UpdateManager};
+use error::ComError;
+use update::UpdateManager;
 
 fn main() {
 	if let Err(e) = run() {
