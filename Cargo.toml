@@ -14,7 +14,7 @@ windows = { version = "0.62.2", features = [
 ]}
 
 [build-dependencies]
-winresource = "0.1.28"
+winresource = "0.1.30"
 
 [profile.release]
 opt-level = "z"
