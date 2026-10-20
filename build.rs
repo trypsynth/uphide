@@ -1,7 +1,12 @@
-use winresource::WindowsResource;
+use embed_manifest::{
+	embed_manifest,
+	manifest::{ExecutionLevel::RequireAdministrator, SupportedOS::Windows10},
+	new_manifest,
+};
 
 fn main() {
-	let mut res = WindowsResource::new();
-	res.set_manifest_file("uphide.manifest");
-	res.compile().expect("failed to embed manifest");
+	let manifest =
+		new_manifest("trypsynth.uphide").requested_execution_level(RequireAdministrator).supported_os(Windows10..);
+	embed_manifest(manifest).expect("Failed to embed the application manifest");
+	println!("cargo:rerun-if-changed=build.rs");
 }

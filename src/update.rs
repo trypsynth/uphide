@@ -1,137 +1,91 @@
 use windows::{
 	Win32::{
-		Foundation::{E_POINTER, VARIANT_TRUE},
+		Foundation::{E_FAIL, VARIANT_FALSE, VARIANT_TRUE},
 		System::{
 			Com::{CLSCTX_INPROC_SERVER, CoCreateInstance},
-			UpdateAgent::{ISearchResult, IUpdate, IUpdateCollection, IUpdateSearcher, IUpdateSession, UpdateSession},
+			UpdateAgent::{
+				IUpdate, IUpdateSearcher, IUpdateSession, UpdateSession, orcSucceeded, orcSucceededWithErrors,
+			},
 		},
 	},
-	core::BSTR,
+	core::{BSTR, Error as WindowsError},
 };
 
-use crate::{com::ComInit, error::ComError};
+use crate::{com::ComInit, error::ComError, input::Mode};
 
 pub struct UpdateInfo {
-	pub title: String,
-	pub index: i32,
-	pub update: IUpdate,
+	title: String,
+	update: IUpdate,
+}
+
+impl UpdateInfo {
+	pub fn title(&self) -> &str {
+		&self.title
+	}
+
+	pub fn apply(&self, mode: Mode) -> Result<(), ComError> {
+		let hidden = match mode {
+			Mode::Hide => VARIANT_TRUE,
+			Mode::Restore => VARIANT_FALSE,
+		};
+		unsafe { self.update.SetIsHidden(hidden) }
+			.map_err(|error| ComError::new(error, "Windows could not change this update's hidden state"))
+	}
 }
 
 pub struct UpdateManager {
-	_com: ComInit,
-	_session: IUpdateSession,
 	searcher: IUpdateSearcher,
-	search_result: Option<ISearchResult>,
-	collection: Option<IUpdateCollection>,
-	updates: Vec<UpdateInfo>,
+	_session: IUpdateSession,
+	// COM interfaces must be released before the apartment is uninitialized.
+	_com: ComInit,
 }
 
 impl UpdateManager {
-	/// Creates a new update manager bound to a COM session.
-	///
-	/// # Errors
-	/// Returns a [`ComError`] if creating the Windows Update COM objects fails.
 	pub fn new() -> Result<Self, ComError> {
 		let com = ComInit::new()?;
-		unsafe {
-			let session: IUpdateSession = CoCreateInstance(&UpdateSession, None, CLSCTX_INPROC_SERVER)
-				.map_err(|e| ComError::new(e.code(), "Failed to create Update Session"))?;
-			let searcher = session
-				.CreateUpdateSearcher()
-				.map_err(|e| ComError::new(e.code(), "Failed to create Update Searcher"))?;
-			let id = BSTR::from("uphide");
-			searcher
-				.SetClientApplicationID(&id)
-				.map_err(|e| ComError::new(e.code(), "Failed to set client application ID"))?;
-			Ok(Self { _com: com, _session: session, searcher, search_result: None, collection: None, updates: Vec::new() })
-		}
+		let session: IUpdateSession = unsafe { CoCreateInstance(&UpdateSession, None, CLSCTX_INPROC_SERVER) }
+			.map_err(|error| ComError::new(error, "Failed to create the Windows Update session"))?;
+		let searcher = unsafe { session.CreateUpdateSearcher() }
+			.map_err(|error| ComError::new(error, "Failed to create the update searcher"))?;
+		unsafe { searcher.SetClientApplicationID(&BSTR::from("Uphide")) }
+			.map_err(|error| ComError::new(error, "Failed to set the client application ID"))?;
+		Ok(Self { searcher, _session: session, _com: com })
 	}
 
-	/// Searches for currently available, non-hidden updates.
-	///
-	/// # Errors
-	/// Returns a [`ComError`] when the search fails through the underlying COM API.
-	pub fn search_for_updates(&mut self) -> Result<(), ComError> {
+	pub fn search(&self, mode: Mode) -> Result<Vec<UpdateInfo>, ComError> {
 		println!("Checking for updates...");
 		unsafe {
-			let criteria = BSTR::from("IsInstalled=0 And IsHidden=0");
-			let result =
-				self.searcher.Search(&criteria).map_err(|e| ComError::new(e.code(), "Failed to search for updates"))?;
-			self.search_result = Some(result);
-		}
-		self.process_results()
-	}
-
-	fn process_results(&mut self) -> Result<(), ComError> {
-		unsafe {
-			let result = self.search_result.as_ref().ok_or_else(|| ComError::new(E_POINTER, "No search result"))?;
-			let collection =
-				result.Updates().map_err(|e| ComError::new(e.code(), "Failed to get update collection"))?;
-			let count = collection.Count().map_err(|e| ComError::new(e.code(), "Failed to get update count"))?;
-			self.collection = Some(collection.clone());
-			self.updates.clear();
-			for i in 0..count {
-				let upd = collection.get_Item(i).map_err(|e| ComError::new(e.code(), "Failed to get update item"))?;
-				let title = get_update_title(&upd);
-				self.updates.push(UpdateInfo { title, index: i + 1, update: upd });
+			self.searcher
+				.SetIncludePotentiallySupersededUpdates(if mode == Mode::Restore {
+					VARIANT_TRUE
+				} else {
+					VARIANT_FALSE
+				})
+				.map_err(|error| ComError::new(error, "Failed to configure the update search"))?;
+			let result = self
+				.searcher
+				.Search(&BSTR::from(mode.criteria()))
+				.map_err(|error| ComError::new(error, "Failed to search for updates"))?;
+			let code = result.ResultCode().map_err(|error| ComError::new(error, "Failed to read the search status"))?;
+			if code == orcSucceededWithErrors {
+				eprintln!("Windows returned a partial result. Some updates may be missing.");
+			} else if code != orcSucceeded {
+				return Err(ComError::new(
+					WindowsError::from_hresult(E_FAIL),
+					"Windows did not complete the update search",
+				));
 			}
-		}
-		Ok(())
-	}
-
-	#[must_use]
-	pub const fn has_updates(&self) -> bool {
-		!self.updates.is_empty()
-	}
-
-	pub fn display_available_updates(&self) {
-		if self.updates.is_empty() {
-			println!("No updates available.");
-			return;
-		}
-		println!("Available updates:");
-		for u in &self.updates {
-			println!("{}: {}", u.index, u.title);
-		}
-	}
-
-	pub fn hide_selected_updates(&self, indices: &[i32]) {
-		if indices.is_empty() {
-			return;
-		}
-		for &idx1 in indices {
-			let array_index = idx1 - 1;
-			let Ok(index) = usize::try_from(array_index) else {
-				println!("Warning: Update index {idx1} is out of range. Skipping.");
-				continue;
-			};
-			if index >= self.updates.len() {
-				println!("Warning: Update index {idx1} is out of range. Skipping.");
-				continue;
+			let collection = result.Updates().map_err(|error| ComError::new(error, "Failed to get the update list"))?;
+			let count = collection.Count().map_err(|error| ComError::new(error, "Failed to get the update count"))?;
+			let mut updates = Vec::new();
+			for index in 0..count {
+				let update =
+					collection.get_Item(index).map_err(|error| ComError::new(error, "Failed to get an update"))?;
+				let title =
+					update.Title().map_err(|error| ComError::new(error, "Failed to get an update title"))?.to_string();
+				updates.push(UpdateInfo { title, update });
 			}
-			let info = &self.updates[index];
-			unsafe {
-				match info.update.SetIsHidden(VARIANT_TRUE) {
-					Ok(()) => println!("Hid {}", info.title),
-					Err(e) => {
-						let hr = e.code();
-						let code = u32::from_ne_bytes(hr.0.to_ne_bytes());
-						println!("Failed to hide {}. (HRESULT: 0x{code:x})", info.title);
-					}
-				}
-			}
+			Ok(updates)
 		}
-	}
-}
-
-fn get_update_title(update: &IUpdate) -> String {
-	unsafe {
-		update.Title().map_or_else(
-			|_| "Unknown".to_string(),
-			|b| {
-				let s = b.to_string();
-				if s.is_empty() { "Unknown".to_string() } else { s }
-			},
-		)
 	}
 }

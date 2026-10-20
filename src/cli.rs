@@ -1,32 +1,39 @@
-use std::io::{self, Write};
+use std::io::{IsTerminal, Result as IoResult, Write, stdin, stdout};
 
-pub fn print_instructions() {
-	println!("Enter the numbers of the updates you want to hide, separated by spaces.");
-	println!("Press Enter without typing anything to exit.");
+use crate::input::Mode;
+
+pub fn print_help() {
+	println!("Uphide {}", env!("CARGO_PKG_VERSION"));
+	println!("Hide or restore individual Windows updates.");
+	println!("\nUsage: uphide [--hide | --restore | --help | --version]");
+	println!("\nWith no arguments, choose an action from the menu.");
+	println!("Select updates by number, separated by spaces. Leave the selection blank to exit.");
+	println!("Restoring an update makes it available again; it does not install it.");
 }
 
-#[must_use]
-pub fn get_user_input() -> String {
+pub fn read_input(prompt: &str) -> IoResult<String> {
+	print!("{prompt}");
+	stdout().flush()?;
 	let mut input = String::new();
-	let _ = io::stdin().read_line(&mut input);
-	input.trim().to_string()
+	stdin().read_line(&mut input)?;
+	Ok(input.trim().to_owned())
 }
 
-#[must_use]
-pub fn parse_user_input(input: &str) -> (Vec<i32>, Vec<String>) {
-	let mut indices = Vec::new();
-	let mut invalid = Vec::new();
-	for tok in input.split_whitespace() {
-		match tok.parse::<i32>() {
-			Ok(n) if n > 0 => indices.push(n),
-			_ => invalid.push(tok.to_string()),
+pub fn choose_mode() -> IoResult<Option<Mode>> {
+	println!("1. Hide updates\n2. Restore hidden updates");
+	loop {
+		match read_input("Choose 1 or 2, or press Enter to exit: ")?.as_str() {
+			"1" => return Ok(Some(Mode::Hide)),
+			"2" => return Ok(Some(Mode::Restore)),
+			"" => return Ok(None),
+			_ => println!("Enter 1 or 2."),
 		}
 	}
-	(indices, invalid)
 }
 
-pub fn press_enter_to_exit() {
-	print!("\nPress Enter to exit...");
-	let _ = io::stdout().flush();
-	let _ = io::stdin().read_line(&mut String::new());
+pub fn pause() -> IoResult<()> {
+	if stdin().is_terminal() {
+		read_input("\nPress Enter to exit...")?;
+	}
+	Ok(())
 }

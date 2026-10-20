@@ -1,20 +1,36 @@
 [package]
 name = "uphide"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
+rust-version = "1.85"
+description = "Hide and restore individual Windows updates"
+license = "MIT"
+repository = "https://github.com/trypsynth/uphide"
+
+[[bin]]
+name = "uphide"
+path = "src/main.rs"
+test = false
+bench = false
 
 [dependencies]
 windows = { version = "0.62.2", features = [
     "Win32_Foundation",
     "Win32_System_Com",
-    "Win32_System_Ole",
     "Win32_System_UpdateAgent",
-    "Win32_System_Diagnostics_Debug",
-    "Win32_System_Memory",
 ]}
 
 [build-dependencies]
-winresource = "0.1.30"
+embed-manifest = "1.5.1"
+
+[lints.rust]
+unsafe_op_in_unsafe_fn = "deny"
+unused_qualifications = "deny"
+
+[lints.clippy]
+all = "deny"
+pedantic = "deny"
+nursery = "deny"
 
 [profile.release]
 opt-level = "z"
